@@ -5,9 +5,11 @@ package info.upump.questionnaire.entity;
  */
 
 public class Answer {
-    int id;
-    String body;
-    int right;
+    private int id;
+    private String body;
+    private int right;
+    private Question question;
+
 
     public Answer() {
     }
@@ -34,6 +36,35 @@ public class Answer {
 
     public void setRight(int right) {
         this.right = right;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Answer answer = (Answer) o;
+
+        if (id != answer.id) return false;
+        if (right != answer.right) return false;
+        return body != null ? body.equals(answer.body) : answer.body == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (body != null ? body.hashCode() : 0);
+        result = 31 * result + right;
+        return result;
     }
 
     @Override

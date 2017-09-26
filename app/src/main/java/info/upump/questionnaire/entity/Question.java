@@ -75,6 +75,37 @@ public class Question {
         this.category = category;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Question question = (Question) o;
+
+        if (id != question.id) return false;
+        if (nunber != question.nunber) return false;
+        if (body != null ? !body.equals(question.body) : question.body != null) return false;
+        if (img != null ? !img.equals(question.img) : question.img != null) return false;
+        if (answers != null ? !answers.equals(question.answers) : question.answers != null)
+            return false;
+        if (comment != null ? !comment.equals(question.comment) : question.comment != null)
+            return false;
+        return category != null ? category.equals(question.category) : question.category == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + nunber;
+        result = 31 * result + (body != null ? body.hashCode() : 0);
+        result = 31 * result + (img != null ? img.hashCode() : 0);
+        result = 31 * result + (answers != null ? answers.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        return result;
+    }
+
     public String toString() {
         return "Question{\nid=" + this.id + "\n, nunber=" + this.nunber + "\n, body='" + this.body + '\'' + "\n, img='" + this.img + '\'' + "\n, answers=" + this.answers + "\n, comment='" + this.comment + '\'' + ", category='" + this.category + '\'' + '}';
     }

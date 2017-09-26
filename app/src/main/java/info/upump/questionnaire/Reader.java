@@ -1,8 +1,10 @@
 package info.upump.questionnaire;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +19,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.upump.questionnaire.db.AnsweDAO;
+import info.upump.questionnaire.db.DB;
+import info.upump.questionnaire.db.DataBaseHelper;
+import info.upump.questionnaire.db.QuestionDAO;
 import info.upump.questionnaire.entity.Answer;
 import info.upump.questionnaire.entity.Question;
 
@@ -32,15 +38,15 @@ public class Reader {
         this.activity = activity;
     }
 
-    public List<Question> startReade() throws IOException {
+    public void startReader() throws IOException {
         List<Question> list = new ArrayList<>();
-         am = activity.getAssets();
-        File file = new File("/assets/qu");
+        am = activity.getAssets();
 
-        String htmlString = readHtml(file);
+        String htmlString = readHtml();
         String[] arrayQuestions = getArrayQuestions(htmlString);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < arrayQuestions.length - 1; i++) {
+            ContentValues contentValues = new ContentValues();
             Question questionBody = new Question();
             Document parse = Jsoup.parse(arrayQuestions[i], "windows-1251");
             int startQuestion = parse.body().html().indexOf("Вопрос:") + 8;
@@ -99,7 +105,8 @@ public class Reader {
             //коментарий
             if (startKomment > 0) {
                 String substring = parse.body().html().substring(startKomment + 12, end);
-                questionBody.setComment(Jsoup.parse(substring).text());
+                String com = Jsoup.parse(substring).text();
+                questionBody.setComment(com);
             }
 
             //категории
@@ -116,22 +123,33 @@ public class Reader {
 
         }
 
+        QuestionDAO questionDAO = new QuestionDAO(activity.getApplicationContext());
+        AnsweDAO answeDAO = new AnsweDAO(activity.getApplicationContext());
+        for (Question question : list) {
+            int id = (int) questionDAO.save(question);
+            question.setId(id);
+            for (Answer answer : question.getAnswers()) {
+                answer.setQuestion(question);
+                answeDAO.save(answer);
+            }
+        }
+/*
         System.out.println(list.size());
         for (Question q : list
                 ) {
             System.out.println(q.toString());
 
-        }
-        return list;
+        }*/
+
 
     }
 
-    private  String[] getArrayQuestions(String htmlString) {
+    private String[] getArrayQuestions(String htmlString) {
         String[] split = htmlString.split("</i>\\)<br>");
         return split[1].split("<hr width=200px>");
     }
 
-    private  String readHtml(File file) {
+    private String readHtml() {
         String s;
         InputStreamReader scanner = null;
         BufferedReader bufferedReader = null;
