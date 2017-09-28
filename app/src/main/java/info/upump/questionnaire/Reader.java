@@ -2,16 +2,12 @@ package info.upump.questionnaire;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,9 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.upump.questionnaire.db.AnsweDAO;
-import info.upump.questionnaire.db.DB;
-import info.upump.questionnaire.db.DataBaseHelper;
+import info.upump.questionnaire.db.AnswerDAO;
 import info.upump.questionnaire.db.QuestionDAO;
 import info.upump.questionnaire.entity.Answer;
 import info.upump.questionnaire.entity.Question;
@@ -122,9 +116,17 @@ public class Reader {
             list.add(questionBody);
 
         }
+      /*  AnswerDAO answeDAO = new AnswerDAO(activity.getApplicationContext());
+        Cursor answerByQuation = answeDAO.getAnswerByQuation(3901);
+       answerByQuation.moveToFirst();
+        do {
+           System.out.println(answerByQuation.getString(1));
+       }
+        while (answerByQuation.moveToNext());
+*/
 
         QuestionDAO questionDAO = new QuestionDAO(activity.getApplicationContext());
-        AnsweDAO answeDAO = new AnsweDAO(activity.getApplicationContext());
+        AnswerDAO answeDAO = new AnswerDAO(activity.getApplicationContext());
         for (Question question : list) {
             int id = (int) questionDAO.save(question);
             question.setId(id);
