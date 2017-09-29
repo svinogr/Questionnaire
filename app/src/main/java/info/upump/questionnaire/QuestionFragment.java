@@ -49,6 +49,8 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.listQuestion);
         helper = DataBaseHelper.getHelper(getContext());
+        helper.create_db();
+
     /*    Reader reader = new Reader(getActivity());
         try {
             reader.startReader();
