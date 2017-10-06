@@ -15,55 +15,53 @@ import info.upump.questionnaire.entity.Question;
 public class QuestionDAO extends DBDAO {
     private static final String WHERE_ID_EQUALS = DataBaseHelper.TABLE_KEY_ID
             + " =?";
+
     public QuestionDAO(Context context) {
         super(context);
     }
 
-    public long save(Question question){
+    public long save(Question question) {
         ContentValues cv = new ContentValues();
-        cv.put(DataBaseHelper.TABLE_KEY_BODY,question.getBody());
-        cv.put(DataBaseHelper.TABLE_KEY_IMG,question.getImg());
-        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY,question.getCategory());
-        cv.put(DataBaseHelper.TABLE_KEY_COMMENT,question.getComment());
-        return database.insert(DataBaseHelper.TABLE_QUESTION,null,cv);
+        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody());
+        cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg());
+        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory());
+        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment());
+        return database.insert(DataBaseHelper.TABLE_QUESTION, null, cv);
     }
 
-    public long update(Question question){
+    public long update(Question question) {
         ContentValues cv = new ContentValues();
-        cv.put(DataBaseHelper.TABLE_KEY_BODY,question.getBody());
-        cv.put(DataBaseHelper.TABLE_KEY_IMG,question.getImg());
-        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY,question.getCategory());
-        cv.put(DataBaseHelper.TABLE_KEY_COMMENT,question.getComment());
-        return database.update(DataBaseHelper.TABLE_QUESTION,cv,
-                WHERE_ID_EQUALS,new String[]{String.valueOf(question.getId())});
+        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody());
+        cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg());
+        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory());
+        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment());
+        return database.update(DataBaseHelper.TABLE_QUESTION, cv,
+                WHERE_ID_EQUALS, new String[]{String.valueOf(question.getId())});
 
     }
 
-    public int delete(Question question){
-        return database.delete(DataBaseHelper.TABLE_QUESTION, WHERE_ID_EQUALS, new String[]{question.getId()+""});
+    public int delete(Question question) {
+        return database.delete(DataBaseHelper.TABLE_QUESTION, WHERE_ID_EQUALS, new String[]{question.getId() + ""});
     }
 
-    public List<Question> getQuestions(){
+    public List<Question> getQuestions() {
 
 
         return null;
     }
 
-    public Cursor getCursorQuestion(){
+    public Cursor getCursorQuestion() {
         Cursor cursor = database.query(DataBaseHelper.TABLE_QUESTION,
                 new String[]{
                         DataBaseHelper.TABLE_KEY_ID,
-                DataBaseHelper.TABLE_KEY_BODY,
-                DataBaseHelper.TABLE_KEY_IMG,
-                DataBaseHelper.TABLE_KEY_CATEGORY,
-                DataBaseHelper.TABLE_KEY_COMMENT},
-null,null,null,null,null,null
-                );
+                        DataBaseHelper.TABLE_KEY_BODY,
+                        DataBaseHelper.TABLE_KEY_CATEGORY,
+                        DataBaseHelper.TABLE_KEY_IMG,
+                        DataBaseHelper.TABLE_KEY_COMMENT},
+                null, null, null, null, null, null
+        );
         return cursor;
     }
-
-
-
 
 
 }

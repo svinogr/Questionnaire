@@ -27,7 +27,10 @@ import info.upump.questionnaire.entity.Question;
 public class Reader {
     Activity activity;
     AssetManager am;
-
+    private static String alphaRu = new String("абвгдеёжзиыйклмнопрстуфхцчшщьэюя");
+    private  static  String[] alphaEn = {"a","b","v","g","d","e","yo","g","z","i","y","i",
+            "k","l","m","n","o","p","r","s","t","u",
+            "f","h","tz","ch","sh","sh","'","e","yu","ya"};
     public Reader(Activity activity) {
         this.activity = activity;
     }
@@ -68,7 +71,8 @@ public class Reader {
             if (startImg > 0) {
                 String img = parse.select("center").html();
                 String attrImg = Jsoup.parse(img).select("img").attr("src");
-                questionBody.setImg(attrImg);
+                String s = renameImg(attrImg);
+                questionBody.setImg(s);
             }
 
             //получаем спсиок ответов
@@ -142,6 +146,39 @@ public class Reader {
             System.out.println(q.toString());
 
         }*/
+
+
+    }
+
+    private String renameImg(String attrImg) {
+        if (attrImg.equals("")) {
+            return null;
+        }
+        if (attrImg.contains("html")) {
+            return null;
+        }
+
+        if (attrImg.contains("htm")) {
+            return null;
+        }
+        String substring = attrImg.replaceAll("-", "_").substring(6, attrImg.length() - 4);
+        String low = substring.toLowerCase();
+
+        char[] chars =low.toCharArray();
+        StringBuilder bufferedReader= new StringBuilder();
+        for (int j =0; j<chars.length;j++){
+
+            int c = alphaRu.indexOf(chars[j]);
+            if(c !=-1){
+                bufferedReader.append(alphaEn[c]);
+            }else bufferedReader.append(chars[j]);
+
+        }
+        if(bufferedReader.toString().contains(".gif")){
+            bufferedReader.append("g");
+        } else bufferedReader.append("j");
+
+        return "img" + bufferedReader;
 
 
     }

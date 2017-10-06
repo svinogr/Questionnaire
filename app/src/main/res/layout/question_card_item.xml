@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#d1929f"
+        android:background="#bcb2b4"
         android:orientation="vertical">
 
         <LinearLayout
@@ -34,9 +34,6 @@
         </LinearLayout>
 
 
-
-
-
         <LinearLayout
 
             android:layout_width="match_parent"
@@ -49,31 +46,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/list_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
 
 
             </LinearLayout>
-            <ImageView
-                android:maxWidth="25dp"
-                android:layout_weight="2"
-                android:layout_gravity="center"
-                android:maxHeight="25dp"
-                android:id="@+id/img"
-                android:src="@mipmap/ic_launcher_round"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+
+                android:scaleType="fitCenter" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

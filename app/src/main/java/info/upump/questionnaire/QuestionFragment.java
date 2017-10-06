@@ -51,13 +51,13 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
         helper = DataBaseHelper.getHelper(getContext());
         helper.create_db();
 
-    /*    Reader reader = new Reader(getActivity());
+       /* Reader reader = new Reader(getActivity());
         try {
             reader.startReader();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
-
+        }
+*/
         //   helper = DataBaseHelper.getHelper(getContext());
         //  QuestionDAO questionDAO = new QuestionDAO(getContext());
 
@@ -104,24 +104,25 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
         list = new ArrayList<>();
         AnswerDAO answerDAO = new AnswerDAO(getContext());
 
-
         cursor = data;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
+                    System.out.println("--------------------------------");
+
                     Question question = new Question();
                     question.setId(cursor.getInt(0));
-                    question.setBody(cursor.getString(1));
-                    question.setCategory(cursor.getString(2));
+                    question.setBody(stringToUpperCase(cursor.getString(1)));
+                    question.setCategory(stringToUpperCase(cursor.getString(2)));
                     question.setImg(cursor.getString(3));
-                    question.setComment(cursor.getString(4));
+                    question.setComment(stringToUpperCase(cursor.getString(4)));
 
                     Cursor answerByQuation = answerDAO.getAnswerByQuation(question.getId());
                     if (answerByQuation.moveToFirst()) {
                         do {
                             Answer answer = new Answer();
                             answer.setId(answerByQuation.getInt(0));
-                            answer.setBody(answerByQuation.getString(1));
+                            answer.setBody(stringToUpperCase(answerByQuation.getString(1)));
                             answer.setRight(answerByQuation.getInt(2));
                             answer.setQuestion(question);
                             question.getAnswers().add(answer);
@@ -140,6 +141,10 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
         QuestionAdapter questionAdapter = new QuestionAdapter(getActivity(), list);
         recyclerView.setAdapter(questionAdapter);
 
+    }
+    private String stringToUpperCase(String s){
+    //    System.out.println(s);
+       return s!=null && s.length()!=0 ? s.substring(0,1).toUpperCase()+s.substring(1) : null;
     }
 
     @Override

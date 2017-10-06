@@ -33,7 +33,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_ID_QUESTION = "id_question";
 
     private static DataBaseHelper instance;
-/*
     private static final String CREATE_QUESTION_TABLE =
             "CREATE TABLE " + TABLE_QUESTION +
                     "(" +
@@ -51,7 +50,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     TABLE_KEY_BODY + " text, " +
                     TABLE_KEY_RIGHT + " INTEGER, " +
                     TABLE_KEY_ID_QUESTION + " INTEGER , " +
-                    "FOREIGN KEY(" + TABLE_KEY_ID_QUESTION + ") REFERENCES " + TABLE_QUESTION + "(_id))";*/
+                    "FOREIGN KEY(" + TABLE_KEY_ID_QUESTION + ") REFERENCES " + TABLE_QUESTION + "(_id))";
 
 
     private DataBaseHelper(Context context) {
@@ -134,9 +133,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-     /*   db.execSQL(CREATE_QUESTION_TABLE);
+        db.execSQL(CREATE_QUESTION_TABLE);
         db.execSQL(CREATE_ANSWER_TABLE);
-        System.err.println("Создание базы");*/
+        System.err.println("Создание базы");
 
     }
 
