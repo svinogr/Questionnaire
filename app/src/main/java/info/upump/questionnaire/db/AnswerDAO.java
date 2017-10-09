@@ -38,4 +38,15 @@ public class AnswerDAO extends DBDAO {
 
         return cursor;
     }
+    public Cursor getCursorAnswer() {
+        Cursor cursor = database.query(DataBaseHelper.TABLE_ANSWER,
+                new String[]{
+                        DataBaseHelper.TABLE_KEY_ID,
+                        DataBaseHelper.TABLE_KEY_BODY,
+                        DataBaseHelper.TABLE_KEY_RIGHT,
+                        DataBaseHelper.TABLE_KEY_ID_QUESTION},
+                null, null, null, null, null, null
+        );
+        return cursor;
+    }
 }

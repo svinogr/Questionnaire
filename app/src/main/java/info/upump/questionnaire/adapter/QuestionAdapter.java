@@ -83,7 +83,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
             });
         } else {
             holder.img.setImageDrawable(null);
-            holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+          //  holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+            holder.img.setVisibility(View.GONE);
         }
         List<Answer>
                 answers = list.get(position).getAnswers();

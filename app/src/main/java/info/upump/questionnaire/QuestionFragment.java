@@ -1,6 +1,6 @@
 package info.upump.questionnaire;
 
-import android.database.Cursor;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,77 +8,46 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.questionnaire.adapter.QuestionAdapter;
-import info.upump.questionnaire.db.AnswerDAO;
-import info.upump.questionnaire.db.DB;
 import info.upump.questionnaire.db.DataBaseHelper;
-import info.upump.questionnaire.db.MyCursorLoader;
-import info.upump.questionnaire.entity.Answer;
+import info.upump.questionnaire.db.MyLoader;
 import info.upump.questionnaire.entity.Question;
 
 /**
- * Created by explo on 23.09.2017.
+ * Created by explo on 09.10.2017.
  */
 
-public class QuestionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
-
-    private final String TAG = "QuestionFragment";
+public class QuestionFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Question>> {
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private DataBaseHelper helper;
     private QuestionAdapter questionAdapter;
     private List<Question> list = new ArrayList<>();
-    Cursor cursor;
-    DataBaseHelper helper;
-    DB db;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        Log.d("OnCreate", TAG);
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.listQuestion);
+        progressBar = root.findViewById(R.id.progress);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         helper = DataBaseHelper.getHelper(getContext());
         helper.create_db();
-
-       /* Reader reader = new Reader(getActivity());
-        try {
-            reader.startReader();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
-        //   helper = DataBaseHelper.getHelper(getContext());
-        //  QuestionDAO questionDAO = new QuestionDAO(getContext());
-
-     /*
-        db = new DB(getContext());
-        db.open();*/
-/*
-        for (Question question:list){
-          *//*  ContentValues contentValues = new ContentValues();
-            contentValues.put(DB.TABLE_KEY_BODY, question.getBody());
-            contentValues.put(DB.TABLE_KEY_CATEGORY, question.getCategory());
-            contentValues.put(DB.TABLE_KEY_COMMENT, question.getComment());
-            contentValues.put(DB.TABLE_KEY_IMG, question.getImg());*//*
-           Log.d("id", String.valueOf(questionDAO.save(question)));
-        }*/
-        /*db.close();*/
-
-
-        //   questionAdapter = new QuestionAdapter(getActivity(), list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        questionAdapter = new QuestionAdapter(getActivity(), list);
         recyclerView.setAdapter(questionAdapter);
         return root;
     }
@@ -86,69 +55,27 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().initLoader(1, null, this);
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Question>> onCreateLoader(int i, Bundle bundle) {
+        System.out.println(1);
 
-        MyCursorLoader myCursorLoader = new MyCursorLoader(getContext());
-        //    myCursorLoader.setTable(DB.TABLE_MAIN_QUESTION);
-        return myCursorLoader;
-
+        return new MyLoader(getContext());
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d("onLoadFinishedColCount", String.valueOf(data.getColumnCount()));
-        list = new ArrayList<>();
-        AnswerDAO answerDAO = new AnswerDAO(getContext());
-
-        cursor = data;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    System.out.println("--------------------------------");
-
-                    Question question = new Question();
-                    question.setId(cursor.getInt(0));
-                    question.setBody(stringToUpperCase(cursor.getString(1)));
-                    question.setCategory(stringToUpperCase(cursor.getString(2)));
-                    question.setImg(cursor.getString(3));
-                    question.setComment(stringToUpperCase(cursor.getString(4)));
-
-                    Cursor answerByQuation = answerDAO.getAnswerByQuation(question.getId());
-                    if (answerByQuation.moveToFirst()) {
-                        do {
-                            Answer answer = new Answer();
-                            answer.setId(answerByQuation.getInt(0));
-                            answer.setBody(stringToUpperCase(answerByQuation.getString(1)));
-                            answer.setRight(answerByQuation.getInt(2));
-                            answer.setQuestion(question);
-                            question.getAnswers().add(answer);
-
-                        } while (answerByQuation.moveToNext());
-                    }
-                    list.add(question);
-
-                }
-                while (cursor.moveToNext());
-
-            }
-
-        }
-        Log.d("onLoadFinishedSizeList", String.valueOf(list.size()));
-        QuestionAdapter questionAdapter = new QuestionAdapter(getActivity(), list);
-        recyclerView.setAdapter(questionAdapter);
-
-    }
-    private String stringToUpperCase(String s){
-    //    System.out.println(s);
-       return s!=null && s.length()!=0 ? s.substring(0,1).toUpperCase()+s.substring(1) : null;
+    public void onLoadFinished(Loader<List<Question>> loader, List<Question> data) {
+        System.out.println(2);
+        System.out.println(data.size());
+        list.addAll(data);
+        questionAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(progressBar.GONE);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<List<Question>> loader) {
 
     }
 }

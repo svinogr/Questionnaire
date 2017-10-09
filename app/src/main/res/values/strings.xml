@@ -5,4 +5,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="all_question">Все вопросы</string>
+    <string name="nav_serch_name">Поиск</string>
+    <string name="nav_nav_captain">Капитаны</string>
+    <string name="nav_senior_assistant">Старшие помошники капиатна</string>
+    <string name="nav_watch_mate_assistant">Вахтенные пмощники капитана</string>
 </resources>
