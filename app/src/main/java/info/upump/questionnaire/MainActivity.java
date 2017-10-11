@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_watch_mate_assistant) {
         } else if (id == R.id.nav_search) {
+            fragment = new SearchFragment();
 
         } else if (id == R.id.nav_question) {
             fragment = new QuestionFragment();

@@ -62,6 +62,19 @@ public class QuestionDAO extends DBDAO {
         );
         return cursor;
     }
+    public Cursor searchByString(String search){
+        System.out.println(search);
+        Cursor cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+                new String[]{
+                        DataBaseHelper.TABLE_KEY_ID,
+                        DataBaseHelper.TABLE_KEY_BODY,
+                        DataBaseHelper.TABLE_KEY_CATEGORY,
+                        DataBaseHelper.TABLE_KEY_IMG,
+                        DataBaseHelper.TABLE_KEY_COMMENT},
+               DataBaseHelper.TABLE_KEY_BODY + " LIKE ?", new String[]{String.valueOf("%"+search+"%")}, null, null, null, null
+        );
+        return cursor;
+    }
 
 
 }
