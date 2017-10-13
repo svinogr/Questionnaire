@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOError;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -54,20 +55,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
         if (list.get(position).getComment() != null) {
             holder.comment.setText(" Коментарий: " + list.get(position).getComment());
         }
-      /*  TaskGetImg taskGetImg = new TaskGetImg(activity);
-        taskGetImg.execute(list.get(position).getImg()+"gggi");
-      //  taskGetImg.execute("test");
-       int bitmap=0;
-
-        try {
-            bitmap = taskGetImg.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }*/
-
-        // holder.img.setImageBitmap(bitmap);
         String s = list.get(position).getImg();
         //   System.out.println("image "+s.length());
         if (s != null) {
@@ -77,14 +64,18 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                    // System.out.println("плтрогал" + list.get(position).getBody());
+                    try {
                     Toast.makeText(view.getContext(),list.get(position).getBody(),Toast.LENGTH_LONG).show();
+                }catch (IOError error){
+                    error.printStackTrace();
+                }
                     return false;
                 }
             });
         } else {
             holder.img.setImageDrawable(null);
-          //  holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
-            holder.img.setVisibility(View.GONE);
+            holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+          //  holder.img.setVisibility(View.GONE);
         }
         List<Answer>
                 answers = list.get(position).getAnswers();

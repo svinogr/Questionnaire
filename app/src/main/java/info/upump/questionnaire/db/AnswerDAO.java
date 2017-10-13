@@ -21,7 +21,7 @@ public class AnswerDAO extends DBDAO {
 
     public long save(Answer answer) {
         ContentValues cv = new ContentValues();
-        cv.put(DataBaseHelper.TABLE_KEY_BODY, answer.getBody());
+        cv.put(DataBaseHelper.TABLE_KEY_BODY, answer.getBody().toLowerCase());
         cv.put(DataBaseHelper.TABLE_KEY_RIGHT, answer.getRight());
         cv.put(DataBaseHelper.TABLE_KEY_ID_QUESTION, answer.getQuestion().getId());
         return database.insert(DataBaseHelper.TABLE_ANSWER, null, cv);

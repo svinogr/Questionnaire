@@ -13,6 +13,7 @@ import info.upump.questionnaire.entity.Question;
  */
 
 public class QuestionDAO extends DBDAO {
+    private  Cursor cursor;
     private static final String WHERE_ID_EQUALS = DataBaseHelper.TABLE_KEY_ID
             + " =?";
 
@@ -22,19 +23,19 @@ public class QuestionDAO extends DBDAO {
 
     public long save(Question question) {
         ContentValues cv = new ContentValues();
-        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody());
-        cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg());
-        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory());
-        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment());
+        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody().toLowerCase());
+        cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg().toLowerCase());
+        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory().toLowerCase());
+        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment().toLowerCase());
         return database.insert(DataBaseHelper.TABLE_QUESTION, null, cv);
     }
 
     public long update(Question question) {
         ContentValues cv = new ContentValues();
-        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody());
-        cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg());
-        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory());
-        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment());
+        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody().toLowerCase());
+        cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg().toLowerCase());
+        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory().toLowerCase());
+        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment().toLowerCase());
         return database.update(DataBaseHelper.TABLE_QUESTION, cv,
                 WHERE_ID_EQUALS, new String[]{String.valueOf(question.getId())});
 
@@ -51,7 +52,7 @@ public class QuestionDAO extends DBDAO {
     }
 
     public Cursor getCursorQuestion() {
-        Cursor cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+         cursor = database.query(DataBaseHelper.TABLE_QUESTION,
                 new String[]{
                         DataBaseHelper.TABLE_KEY_ID,
                         DataBaseHelper.TABLE_KEY_BODY,
@@ -63,18 +64,18 @@ public class QuestionDAO extends DBDAO {
         return cursor;
     }
     public Cursor searchByString(String search){
-        System.out.println(search);
-        Cursor cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+         cursor = database.query(DataBaseHelper.TABLE_QUESTION,
                 new String[]{
                         DataBaseHelper.TABLE_KEY_ID,
                         DataBaseHelper.TABLE_KEY_BODY,
                         DataBaseHelper.TABLE_KEY_CATEGORY,
                         DataBaseHelper.TABLE_KEY_IMG,
                         DataBaseHelper.TABLE_KEY_COMMENT},
-               DataBaseHelper.TABLE_KEY_BODY + " LIKE ?", new String[]{String.valueOf("%"+search+"%")}, null, null, null, null
+               DataBaseHelper.TABLE_KEY_BODY + " LIKE ?", new String[]{String.valueOf("%"+search.toLowerCase()+"%")}, null, null, null, null
         );
         return cursor;
     }
+
 
 
 }

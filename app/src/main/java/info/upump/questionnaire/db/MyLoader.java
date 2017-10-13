@@ -16,21 +16,33 @@ import info.upump.questionnaire.entity.Question;
  */
 
 public class MyLoader extends AsyncTaskLoader<List<Question>> {
-    QuestionDAO questionDAO;
-    AnswerDAO answerDAO;
+    private QuestionDAO questionDAO;
+    private AnswerDAO answerDAO;
+    private String requestSearch;
+    private  Cursor cursor;
+
     public MyLoader(Context context) {
         super(context);
         questionDAO = new QuestionDAO(context);
         answerDAO = new AnswerDAO(context);
     }
 
+    public MyLoader(Context context, String requestSearch) {
+        this(context);
+        this.requestSearch = requestSearch;
+    }
+
     @Override
     public List<Question> loadInBackground() {
+
+
         System.out.println(3);
         List<Question> list = new ArrayList<>();
         Cursor answerByQuation;
 
-        Cursor cursor = questionDAO.getCursorQuestion();
+        if(requestSearch==null) {
+         cursor = questionDAO.getCursorQuestion();
+        }else cursor = questionDAO.searchByString(requestSearch);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
@@ -59,7 +71,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
 
                 }
 
-                 while (cursor.moveToNext()) ;
+                while (cursor.moveToNext());
 
 
             }
@@ -67,6 +79,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
         System.out.println(list.size());
         return list;
     }
+
     private String stringToUpperCase(String s) {
         return s != null && s.length() != 0 ? s.substring(0, 1).toUpperCase() + s.substring(1) : null;
     }
@@ -83,6 +96,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
         super.onStopLoading();
 
     }
+
     @Override
     public void deliverResult(List<Question> data) {
         super.deliverResult(data);

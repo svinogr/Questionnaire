@@ -1,5 +1,6 @@
 package info.upump.questionnaire;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        drawer.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -85,7 +86,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.mailto) {
+            Intent email = new Intent(Intent.ACTION_SEND);
+            email.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@upump.info"});
+            email.putExtra(Intent.EXTRA_SUBJECT, "Questionaire");
+            email.putExtra(Intent.EXTRA_TEXT, "");
+            //email.setType("message/rfc822");
+            email.setType("plain/text");
+            startActivity(Intent.createChooser(email, "Choose an Email client :"));
             return true;
         }
 
@@ -97,18 +105,22 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_captain) {
-            // Handle the camera action
-        } else if (id == R.id.nav_senior_assistant) {
-
-        } else if (id == R.id.nav_watch_mate_assistant) {
-        } else if (id == R.id.nav_search) {
-            fragment = new SearchFragment();
-
-        } else if (id == R.id.nav_question) {
-            fragment = new QuestionFragment();
-        } else if (id == R.id.nav_send) {
+        switch (item.getItemId()){
+            case R.id.nav_captain:
+                fragment = new CaptainFragment();
+                break;
+            case R.id.nav_senior_assistant:
+                fragment = new SeniorAssistantFragment();
+                break;
+            case R.id.nav_watch_mate_assistant:
+                fragment = new WatchMate();
+                break;
+            case R.id.nav_question:
+                fragment = new QuestionFragment();
+                break;
+            case R.id.nav_search:
+                fragment = new SearchFragment();
+                break;
 
         }
         item.setChecked(true);

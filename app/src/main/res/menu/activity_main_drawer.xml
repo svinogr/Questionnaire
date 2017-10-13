@@ -16,10 +16,7 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/nav_watch_mate_assistant" />
 
-        <item
-            android:id="@+id/nav_question"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/all_question" />
+
     </group>
 
     <item android:title="Communicate">
@@ -29,9 +26,9 @@
                 android:icon="@drawable/ic_search_black_24dp"
                 android:title="@string/nav_serch_name" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_question"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/all_question" />
         </menu>
     </item>
 
