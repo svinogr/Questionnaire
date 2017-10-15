@@ -18,8 +18,8 @@ import info.upump.questionnaire.entity.Question;
 public class MyLoader extends AsyncTaskLoader<List<Question>> {
     private QuestionDAO questionDAO;
     private AnswerDAO answerDAO;
-    private String requestSearch;
-    private  Cursor cursor;
+    private String category;
+    private Cursor cursor;
 
     public MyLoader(Context context) {
         super(context);
@@ -27,22 +27,26 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
         answerDAO = new AnswerDAO(context);
     }
 
-    public MyLoader(Context context, String requestSearch) {
+
+
+    public MyLoader(Context context,  String category) {
         this(context);
-        this.requestSearch = requestSearch;
+        this.category = category;
+
     }
 
     @Override
     public List<Question> loadInBackground() {
-
-
         System.out.println(3);
         List<Question> list = new ArrayList<>();
         Cursor answerByQuation;
 
-        if(requestSearch==null) {
-         cursor = questionDAO.getCursorQuestion();
-        }else cursor = questionDAO.searchByString(requestSearch);
+
+        if (category != null) {
+            cursor = questionDAO.getSearchInCategory(category);
+            System.out.println("поиск по категории " + category );
+        }else cursor = questionDAO.getCursorQuestion();
+
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {

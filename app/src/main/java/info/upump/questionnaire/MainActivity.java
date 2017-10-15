@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,23 +42,18 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+        DataBaseHelper helper = DataBaseHelper.getHelper(this);
+        helper.create_db();
         toggle.syncState();
         drawer.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-      /*  fragment = new QuestionFragment();
-
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.mainContainer, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();*/
 
     }
 
@@ -105,22 +101,44 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String tag=null;
         switch (item.getItemId()){
             case R.id.nav_captain:
-                fragment = new CaptainFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(CaptainFragment.TAG);
+                tag = CaptainFragment.TAG;
+                System.out.println(CaptainFragment.TAG);
+                if(fragment==null) {
+                    fragment = new CaptainFragment();
+                }
                 break;
             case R.id.nav_senior_assistant:
-                fragment = new SeniorAssistantFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(SeniorAssistantFragment.TAG);
+                tag = SeniorAssistantFragment.TAG;
+                System.out.println(SeniorAssistantFragment.TAG);
+                if(fragment==null) {
+                    fragment = new SeniorAssistantFragment();
+                }
+
                 break;
             case R.id.nav_watch_mate_assistant:
-                fragment = new WatchMate();
+                fragment = getSupportFragmentManager().findFragmentByTag(WatchMateFragment.TAG);
+                tag = WatchMateFragment.TAG;
+                System.out.println(WatchMateFragment.TAG);
+                if(fragment==null) {
+                    fragment = new WatchMateFragment();
+                }
+
                 break;
             case R.id.nav_question:
-                fragment = new QuestionFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(QuestionFragment.TAG);
+                tag = QuestionFragment.TAG;
+                System.out.println(QuestionFragment.TAG);
+                if(fragment==null) {
+                    fragment = new QuestionFragment();
+                }
+
                 break;
-            case R.id.nav_search:
-                fragment = new SearchFragment();
-                break;
+
 
         }
         item.setChecked(true);
@@ -129,7 +147,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.mainContainer, fragment);
+        fragmentTransaction.replace(R.id.mainContainer, fragment, tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 

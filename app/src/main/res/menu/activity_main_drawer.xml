@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_captain"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/ic_cap"
             android:title="@string/nav_nav_captain" />
 
         <item
             android:id="@+id/nav_senior_assistant"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/ic_cap_ass"
             android:title="@string/nav_senior_assistant" />
         <item
             android:id="@+id/nav_watch_mate_assistant"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@mipmap/ic_cap_watc"
             android:title="@string/nav_watch_mate_assistant" />
 
 
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_search"
-                android:icon="@drawable/ic_search_black_24dp"
-                android:title="@string/nav_serch_name" />
+
             <item
                 android:id="@+id/nav_question"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_search_black_24dp"
                 android:title="@string/all_question" />
-        </menu>
-    </item>
 
 </menu>

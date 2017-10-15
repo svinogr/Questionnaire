@@ -10,14 +10,12 @@ import android.view.ViewGroup;
  * Created by explo on 11.10.2017.
  */
 
-public class SeniorAssistantFragment extends CaptainFragment{
-    public static String TAG="ass";
+public class WatchMateFragment extends  CaptainFragment{
+    public static String TAG="watch";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        CATEGORY = "старшие помощники капитана";
-
+        CATEGORY = "вахтенные помощники капитана";
         return super.onCreateView(inflater, container, savedInstanceState);
-
     }
 }

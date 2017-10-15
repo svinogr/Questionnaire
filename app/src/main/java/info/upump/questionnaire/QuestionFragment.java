@@ -8,11 +8,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,9 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     private ProgressBar progressBar;
     private DataBaseHelper helper;
     private QuestionAdapter questionAdapter;
+    private SearchView searchView;
     private List<Question> list = new ArrayList<>();
+    public static String TAG="question";
 
     @Nullable
     @Override
@@ -39,22 +41,42 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         View root = inflater.inflate(R.layout.fragment_list, container, false);
-        recyclerView = (RecyclerView) root.findViewById(R.id.listQuestion);
-        progressBar = root.findViewById(R.id.progress);
-        progressBar.setVisibility(ProgressBar.VISIBLE);
-        helper = DataBaseHelper.getHelper(getContext());
-        helper.create_db();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+
+
         questionAdapter = new QuestionAdapter(getActivity(), list);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView = (RecyclerView) root.findViewById(R.id.listQuestionSearch);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(questionAdapter);
+
+        progressBar = root.findViewById(R.id.progressSearch);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+
+        searchView = root.findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                questionAdapter.filter(newText);
+
+                return true;
+            }
+        });
+
+
+
         return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(1, null, this);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override

@@ -132,10 +132,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+/*
 
-       /* db.execSQL(CREATE_QUESTION_TABLE);
+        db.execSQL(CREATE_QUESTION_TABLE);
         db.execSQL(CREATE_ANSWER_TABLE);
-        System.err.println("Создание базы");*/
+        System.err.println("Создание базы");
+*/
 
     }
 

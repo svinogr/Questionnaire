@@ -24,9 +24,19 @@ public class QuestionDAO extends DBDAO {
     public long save(Question question) {
         ContentValues cv = new ContentValues();
         cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody().toLowerCase());
+        if(question.getImg()!=null){
         cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg().toLowerCase());
+        }else {
+            cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg());
+        }
+
         cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, question.getCategory().toLowerCase());
-        cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment().toLowerCase());
+        if(question.getComment()!=null){
+            cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment().toLowerCase());
+        }else {
+            cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment());
+        }
+
         return database.insert(DataBaseHelper.TABLE_QUESTION, null, cv);
     }
 
@@ -71,11 +81,24 @@ public class QuestionDAO extends DBDAO {
                         DataBaseHelper.TABLE_KEY_CATEGORY,
                         DataBaseHelper.TABLE_KEY_IMG,
                         DataBaseHelper.TABLE_KEY_COMMENT},
-               DataBaseHelper.TABLE_KEY_BODY + " LIKE ?", new String[]{String.valueOf("%"+search.toLowerCase()+"%")}, null, null, null, null
+               DataBaseHelper.TABLE_KEY_BODY + " LIKE ? ", new String[]{String.valueOf("%"+search.toLowerCase()+"%")}, null, null, null, null
         );
         return cursor;
     }
 
 
+    public Cursor getSearchInCategory(String category) {
+        System.out.println(category);
+        cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+                new String[]{
+                        DataBaseHelper.TABLE_KEY_ID,
+                        DataBaseHelper.TABLE_KEY_BODY,
+                        DataBaseHelper.TABLE_KEY_CATEGORY,
+                        DataBaseHelper.TABLE_KEY_IMG,
+                        DataBaseHelper.TABLE_KEY_COMMENT},
+                DataBaseHelper.TABLE_KEY_CATEGORY+ " LIKE ? ", new String[]{String.valueOf("%"+category.toLowerCase()+"%")}, null, null, null, null
+        );
+        return cursor;
 
+    }
 }
