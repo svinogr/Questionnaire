@@ -2,6 +2,7 @@ package info.upump.questionnaire;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -12,10 +13,12 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import info.upump.questionnaire.adapter.QuestionAdapter;
 import info.upump.questionnaire.db.DataBaseHelper;
@@ -33,6 +36,7 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     private QuestionAdapter questionAdapter;
     private SearchView searchView;
     private List<Question> list = new ArrayList<>();
+    private EditText editText;
     public static String TAG="question";
 
     @Nullable
@@ -62,7 +66,22 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                questionAdapter.filter(newText);
+               try {
+
+                   int number = Integer.parseInt(newText);
+                   if(number>recyclerView.getAdapter().getItemCount()){
+                       number = recyclerView.getAdapter().getItemCount();
+                   }
+                   if(number<1){
+                       number = 1;
+                   }
+                   recyclerView.scrollToPosition(number-1);
+               }catch (NumberFormatException e) {
+                   questionAdapter.filter(newText);
+                   return true;
+               }catch (IndexOutOfBoundsException e){
+                   recyclerView.stopScroll();
+               }
 
                 return true;
             }

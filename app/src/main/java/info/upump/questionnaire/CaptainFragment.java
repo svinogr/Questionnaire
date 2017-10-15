@@ -53,7 +53,22 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                questionAdapter.filter(newText);
+                try {
+
+                    int number = Integer.parseInt(newText);
+                    if(number>recyclerView.getAdapter().getItemCount()){
+                        number = recyclerView.getAdapter().getItemCount();
+                    }
+                    if(number<1){
+                        number = 1;
+                    }
+                    recyclerView.scrollToPosition(number-1);
+                }catch (NumberFormatException e) {
+                    questionAdapter.filter(newText);
+                    return true;
+                }catch (IndexOutOfBoundsException e){
+                    recyclerView.stopScroll();
+                }
 
                 return true;
             }
