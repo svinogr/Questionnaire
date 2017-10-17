@@ -1,47 +1,45 @@
 package info.upump.questionnaire.adapter;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.database.Cursor;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOError;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.LogRecord;
 
 import info.upump.questionnaire.R;
+import info.upump.questionnaire.db.AnswerDAO;
 import info.upump.questionnaire.entity.Answer;
 import info.upump.questionnaire.entity.Question;
 import info.upump.questionnaire.filter.CategoryFilter;
 import info.upump.questionnaire.model.QuestionViewHolder;
-import info.upump.questionnaire.task.TaskGetImg;
+import info.upump.questionnaire.task.TaskGetAnswer;
 
 /**
  * Created by explo on 23.09.2017.
  */
 
-public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder>{
+public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
     private Activity activity;
     protected List<Question> list;
     private CategoryFilter filter;
     protected QuestionViewHolder holder;
+    private List<Answer> answers;
 
     public QuestionAdapter(Activity activity, List<Question> list) {
         this.activity = activity;
         this.list = list;
-        this.filter = new CategoryFilter(list,this);
+        this.filter = new CategoryFilter(list, this);
     }
 
     @Override
@@ -51,8 +49,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(QuestionViewHolder holder, final int position) {
-       this.holder = holder;
+    public void onBindViewHolder(final QuestionViewHolder holder, final int position) {
+        this.holder = holder;
         holder.linearLayoutAnswer.removeAllViews();
 
         holder.number.setText(" Вопрос номер: " + String.valueOf(position + 1));
@@ -69,38 +67,25 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder>{
             holder.img.setImageDrawable(null);
             holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
+        if(list.get(position).getAnswers().size()<1) {
 
-        List<Answer>
-                answers = list.get(position).getAnswers();
-        for (Answer answer :
-                answers) {
-            CheckedTextView text = new CheckedTextView(activity.getApplicationContext());
-
-            switch (answer.getRight()) {
-                case 1:
-                    text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    text.setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
-                    text.setTypeface(null, Typeface.BOLD_ITALIC);
-                    text.setChecked(true);
-                    break;
-                case 0:
-                    text.setTypeface(null, Typeface.ITALIC);
-                    break;
-                case -1:
-                    break;
+            TaskGetAnswer taskGetAnswer = new TaskGetAnswer(activity, holder);
+            taskGetAnswer.execute(list.get(position).getId());
+            try {
+                answers = taskGetAnswer.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
-
-            text.setText(" - " + answer.getBody());
-            holder.linearLayoutAnswer.addView(text);
         }
-
     }
 
     public void setList(List<Question> list) {
         this.list = list;
     }
 
-    public void filter(String text){
+    public void filter(String text) {
         filter.filter(text);
     }
 
@@ -109,7 +94,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder>{
         return list.size();
     }
 
-    protected void setComment(int position){
+    protected void setComment(int position) {
         if (list.get(position).getComment() != null) {
             holder.comment.setText(" Коментарий: " + list.get(position).getComment());
         }

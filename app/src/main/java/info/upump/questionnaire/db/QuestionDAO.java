@@ -62,7 +62,8 @@ public class QuestionDAO extends DBDAO {
     }
 
     public Cursor getCursorQuestion() {
-         cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+        long l = System.nanoTime();
+        cursor = database.query(DataBaseHelper.TABLE_QUESTION,
                 new String[]{
                         DataBaseHelper.TABLE_KEY_ID,
                         DataBaseHelper.TABLE_KEY_BODY,
@@ -71,6 +72,7 @@ public class QuestionDAO extends DBDAO {
                         DataBaseHelper.TABLE_KEY_COMMENT},
                 null, null, null, null, null, null
         );
+        System.err.println("квести "+ (System.nanoTime()- l));
         return cursor;
     }
     public Cursor searchByString(String search){

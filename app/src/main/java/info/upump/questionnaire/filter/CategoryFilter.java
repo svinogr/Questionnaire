@@ -1,5 +1,7 @@
 package info.upump.questionnaire.filter;
 
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Filter;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class CategoryFilter extends Filter {
     private List<Question> outList;
     private QuestionAdapter questionAdapter;
 
+
     public CategoryFilter(List<Question> inList, QuestionAdapter questionAdapter) {
         this.inList = inList;
         this.outList = new ArrayList<>();
@@ -27,19 +30,24 @@ public class CategoryFilter extends Filter {
     protected FilterResults performFiltering(CharSequence constraint) {
         outList.clear();
         FilterResults filterResults = new FilterResults();
-        for (Question question : inList) {
-            if (question.getBody().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                outList.add(question);
-            }
 
-        }
-        filterResults.values = outList;
-        filterResults.count = outList.size();
+            System.out.println(constraint);
+
+            for (Question question : inList) {
+                if (question.getBody().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    outList.add(question);
+                }
+
+            }
+            filterResults.values = outList;
+            filterResults.count = outList.size();
+
         return filterResults;
     }
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
+
         questionAdapter.setList(outList);
         questionAdapter.notifyDataSetChanged();
     }

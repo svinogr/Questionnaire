@@ -1,6 +1,8 @@
 package info.upump.questionnaire;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -35,6 +37,31 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
     private SearchView searchView;
     protected  String CATEGORY = "капитаны";
     public   static String TAG = "cap";
+    private final Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+
+            System.out.println(msg.arg1 +"------"+(String)msg.obj);
+            if(msg.what==100){
+                try {
+
+                    int number = Integer.parseInt( (String) msg.obj);
+                    if(number>recyclerView.getAdapter().getItemCount()){
+                        number = recyclerView.getAdapter().getItemCount();
+                    }
+                    if(number<1){
+                        number = 1;
+                    }
+                    recyclerView.scrollToPosition(number-1);
+                }catch (NumberFormatException e) {
+                    questionAdapter.filter( (String) msg.obj);
+
+                }catch (IndexOutOfBoundsException e){
+                    recyclerView.stopScroll();
+                }
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -53,23 +80,8 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                try {
-
-                    int number = Integer.parseInt(newText);
-                    if(number>recyclerView.getAdapter().getItemCount()){
-                        number = recyclerView.getAdapter().getItemCount();
-                    }
-                    if(number<1){
-                        number = 1;
-                    }
-                    recyclerView.scrollToPosition(number-1);
-                }catch (NumberFormatException e) {
-                    questionAdapter.filter(newText);
-                    return true;
-                }catch (IndexOutOfBoundsException e){
-                    recyclerView.stopScroll();
-                }
-
+                handler.removeMessages(100);
+                handler.sendMessageDelayed(handler.obtainMessage(100, newText), 750);
                 return true;
             }
         });

@@ -35,7 +35,6 @@ public class AnswerDAO extends DBDAO {
                         DataBaseHelper.TABLE_KEY_RIGHT},
                         DataBaseHelper.TABLE_KEY_ID_QUESTION + "=? ", new String[]{String.valueOf(id)}, null, null, null, null);
 
-
         return cursor;
     }
     public Cursor getCursorAnswer() {

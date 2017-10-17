@@ -1,0 +1,76 @@
+package info.upump.questionnaire.task;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.view.ViewGroup;
+import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import info.upump.questionnaire.db.AnswerDAO;
+import info.upump.questionnaire.entity.Answer;
+import info.upump.questionnaire.model.QuestionViewHolder;
+
+
+public class TaskGetAnswer extends AsyncTask<Integer, Void, List<Answer>> {
+    private Activity activity;
+    private AnswerDAO answerDAO;
+    private QuestionViewHolder holder;
+
+    public TaskGetAnswer(Activity activity, QuestionViewHolder holder) {
+        this.activity = activity;
+        this.holder = holder;
+        answerDAO = new AnswerDAO(activity);
+    }
+
+    @Override
+    protected List<Answer> doInBackground(Integer... params) {
+        List<Answer> list = new ArrayList<>();
+        System.out.println(params[0]);
+        Cursor answerByQuation = answerDAO.getAnswerByQuation(params[0]);
+        answerDAO = new AnswerDAO(activity.getApplicationContext());
+        if (answerByQuation.moveToFirst()) {
+            do {
+                Answer answer = new Answer();
+                answer.setId(answerByQuation.getInt(0));
+                answer.setBody((answerByQuation.getString(1)));
+                answer.setRight(answerByQuation.getInt(2));
+                list.add(answer);
+
+            } while (answerByQuation.moveToNext());
+        }
+        answerByQuation.close();
+        return list;
+    }
+
+
+    @Override
+    protected void onPostExecute(List<Answer> answers) {
+        for (Answer answer :
+                answers) {
+            CheckedTextView text = new CheckedTextView(activity.getApplicationContext());
+            switch (answer.getRight()) {
+                case 1:
+                    text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    text.setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
+                    text.setTypeface(null, Typeface.BOLD_ITALIC);
+                    text.setChecked(true);
+                    break;
+                case 0:
+                    text.setTypeface(null, Typeface.ITALIC);
+                    break;
+                case -1:
+                    break;
+            }
+
+            text.setText(" - " + answer.getBody());
+            holder.linearLayoutAnswer.addView(text);
+        }
+    }
+
+}

@@ -28,8 +28,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
     }
 
 
-
-    public MyLoader(Context context,  String category) {
+    public MyLoader(Context context, String category) {
         this(context);
         this.category = category;
 
@@ -44,8 +43,8 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
 
         if (category != null) {
             cursor = questionDAO.getSearchInCategory(category);
-            System.out.println("поиск по категории " + category );
-        }else cursor = questionDAO.getCursorQuestion();
+            System.out.println("поиск по категории " + category);
+        } else cursor = questionDAO.getCursorQuestion();
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -57,7 +56,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
                     question.setImg(cursor.getString(3));
                     question.setComment(stringToUpperCase(cursor.getString(4)));
 
-                    answerByQuation = answerDAO.getAnswerByQuation(question.getId());
+                  /*  answerByQuation = answerDAO.getAnswerByQuation(question.getId());
                     if (answerByQuation.moveToFirst()) {
                         do {
                             Answer answer = new Answer();
@@ -70,9 +69,9 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
                         } while (answerByQuation.moveToNext());
                     }
                     list.add(question);
-                    answerByQuation.close();
+                    answerByQuation.close();*/
 
-
+                    list.add(question);
                 }
 
                 while (cursor.moveToNext());
@@ -80,6 +79,40 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
 
             }
         }
+        /*if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Question question = new Question();
+                    question.setId(cursor.getInt(0));
+                    question.setBody(stringToUpperCase(cursor.getString(1)));
+                    question.setCategory(stringToUpperCase(cursor.getString(2)));
+                    question.setImg(cursor.getString(3));
+                    question.setComment(stringToUpperCase(cursor.getString(4)));
+                    list.add(question);
+
+                } while (cursor.moveToNext());
+
+                for (Question question : list) {
+                    answerByQuation = answerDAO.getAnswerByQuation(question.getId());
+                    if (answerByQuation.moveToFirst()) {
+                        do {
+                            Answer answer = new Answer();
+                            answer.setId(answerByQuation.getInt(0));
+                            answer.setBody(stringToUpperCase(answerByQuation.getString(1)));
+                            answer.setRight(answerByQuation.getInt(2));
+                            answer.setQuestion(question);
+                            question.getAnswers().add(answer);
+
+                        } while (answerByQuation.moveToNext());
+                    }
+
+                    answerByQuation.close();
+                }
+
+
+            }
+        }
+*/
         System.out.println(list.size());
         return list;
     }
