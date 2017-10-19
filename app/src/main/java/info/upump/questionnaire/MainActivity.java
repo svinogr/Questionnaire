@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.mailto) {
             Intent email = new Intent(Intent.ACTION_SEND);
-            email.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@upump.info"});
-            email.putExtra(Intent.EXTRA_SUBJECT, "Questionaire");
+            email.putExtra(Intent.EXTRA_EMAIL, new String[]{String.valueOf(R.string.email_mail)});
+            email.putExtra(Intent.EXTRA_SUBJECT, R.string.subject_mail);
             email.putExtra(Intent.EXTRA_TEXT, "");
             //email.setType("message/rfc822");
             email.setType("plain/text");
@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 break;
-
 
         }
         item.setChecked(true);

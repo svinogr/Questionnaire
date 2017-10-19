@@ -52,8 +52,12 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
                     if(number<1){
                         number = 1;
                     }
-                    recyclerView.scrollToPosition(number-1);
+                    System.out.println("номер строки если цифра "+number);
+                    recyclerView.scrollToPosition(number-5);
+                    recyclerView.smoothScrollToPosition(number-1);
+
                 }catch (NumberFormatException e) {
+                    System.out.println("если символ !"+msg.obj+"!");
                     questionAdapter.filter( (String) msg.obj);
 
                 }catch (IndexOutOfBoundsException e){
@@ -81,7 +85,7 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 handler.removeMessages(100);
-                handler.sendMessageDelayed(handler.obtainMessage(100, newText), 750);
+                handler.sendMessageDelayed(handler.obtainMessage(100, newText), 250);
                 return true;
             }
         });

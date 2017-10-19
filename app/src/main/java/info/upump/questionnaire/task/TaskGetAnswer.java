@@ -2,6 +2,7 @@ package info.upump.questionnaire.task;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import info.upump.questionnaire.db.AnswerDAO;
 import info.upump.questionnaire.entity.Answer;
+import info.upump.questionnaire.entity.Question;
 import info.upump.questionnaire.model.QuestionViewHolder;
 
 
@@ -21,11 +23,14 @@ public class TaskGetAnswer extends AsyncTask<Integer, Void, List<Answer>> {
     private Activity activity;
     private AnswerDAO answerDAO;
     private QuestionViewHolder holder;
+    private List<Question> questionList;
 
-    public TaskGetAnswer(Activity activity, QuestionViewHolder holder) {
+    public TaskGetAnswer(Activity activity, QuestionViewHolder holder, List<Question> questionList) {
         this.activity = activity;
         this.holder = holder;
+        this.questionList = questionList;
         answerDAO = new AnswerDAO(activity);
+
     }
 
     @Override
@@ -33,7 +38,6 @@ public class TaskGetAnswer extends AsyncTask<Integer, Void, List<Answer>> {
         List<Answer> list = new ArrayList<>();
         System.out.println(params[0]);
         Cursor answerByQuation = answerDAO.getAnswerByQuation(params[0]);
-        answerDAO = new AnswerDAO(activity.getApplicationContext());
         if (answerByQuation.moveToFirst()) {
             do {
                 Answer answer = new Answer();
@@ -45,6 +49,12 @@ public class TaskGetAnswer extends AsyncTask<Integer, Void, List<Answer>> {
             } while (answerByQuation.moveToNext());
         }
         answerByQuation.close();
+        for (Question question : questionList) {
+            if(question.getId()==params[0]){
+                question.getAnswers().addAll(list);
+            }
+
+        }
         return list;
     }
 
@@ -67,6 +77,7 @@ public class TaskGetAnswer extends AsyncTask<Integer, Void, List<Answer>> {
                 case -1:
                     break;
             }
+            text.setTextColor(Color.parseColor("#FF424242"));
 
             text.setText(" - " + answer.getBody());
             holder.linearLayoutAnswer.addView(text);

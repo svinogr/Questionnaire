@@ -43,7 +43,6 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     private final Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-
             System.out.println(msg.arg1 +"------"+(String)msg.obj);
             if(msg.what==100){
                 try {
@@ -55,8 +54,11 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
                     if(number<1){
                         number = 1;
                     }
+                    System.out.println("номер строки если цифра "+number);
                     recyclerView.scrollToPosition(number-1);
                 }catch (NumberFormatException e) {
+                    System.out.println("если символ !"+msg.obj+"!");
+
                     questionAdapter.filter( (String) msg.obj);
 
                 }catch (IndexOutOfBoundsException e){
@@ -95,7 +97,7 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
             public boolean onQueryTextChange(String newText) {
 
                 handler.removeMessages(100);
-                handler.sendMessageDelayed(handler.obtainMessage(100, newText), 750);
+                handler.sendMessageDelayed(handler.obtainMessage(100, newText), 250);
                 return true;
             }
         });
@@ -122,6 +124,7 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<List<Question>> loader, List<Question> data) {
         System.out.println(2);
         System.out.println(data.size());
+        list.clear();
         list.addAll(data);
         questionAdapter.notifyDataSetChanged();
         progressBar.setVisibility(progressBar.GONE);

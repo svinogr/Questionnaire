@@ -36,7 +36,6 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
 
     @Override
     public List<Question> loadInBackground() {
-        System.out.println(3);
         List<Question> list = new ArrayList<>();
         Cursor answerByQuation;
 

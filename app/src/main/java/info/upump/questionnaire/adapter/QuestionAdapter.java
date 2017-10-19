@@ -2,6 +2,7 @@ package info.upump.questionnaire.adapter;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -37,6 +38,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
     private List<Answer> answers;
 
     public QuestionAdapter(Activity activity, List<Question> list) {
+        System.out.println("созался адаптер");
         this.activity = activity;
         this.list = list;
         this.filter = new CategoryFilter(list, this);
@@ -44,6 +46,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
 
     @Override
     public QuestionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_card_item, parent, false);
         return new QuestionViewHolder(view);
     }
@@ -53,9 +56,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
         this.holder = holder;
         holder.linearLayoutAnswer.removeAllViews();
 
-        holder.number.setText(" Вопрос номер: " + String.valueOf(position + 1));
+        holder.number.setText("Вопрос номер: " + String.valueOf(position + 1));
 
-        holder.questionBody.setText(" Вопрос: " + list.get(position).getBody());
+       // holder.questionBody.setText("Вопрос: " + list.get(position).getBody());
+        holder.questionBody.setText(list.get(position).getBody());
 
         setComment(position);
 
@@ -67,9 +71,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
             holder.img.setImageDrawable(null);
             holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
+        System.out.println("размер листа вопроса "+list.get(position).getAnswers().size());
         if(list.get(position).getAnswers().size()<1) {
 
-            TaskGetAnswer taskGetAnswer = new TaskGetAnswer(activity, holder);
+            TaskGetAnswer taskGetAnswer = new TaskGetAnswer(activity, holder, list);
             taskGetAnswer.execute(list.get(position).getId());
             try {
                 answers = taskGetAnswer.get();
@@ -77,6 +82,27 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
+            }
+        }else {
+            for (Answer answer :
+                    list.get(position).getAnswers()) {
+                CheckedTextView text = new CheckedTextView(activity.getApplicationContext());
+                switch (answer.getRight()) {
+                    case 1:
+                        text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        text.setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
+                        text.setTypeface(null, Typeface.BOLD_ITALIC);
+                        text.setChecked(true);
+                        break;
+                    case 0:
+                        text.setTypeface(null, Typeface.ITALIC);
+                        break;
+                    case -1:
+                        break;
+                }
+                text.setTextColor(Color.parseColor("#FF424242"));
+                text.setText(" - " + answer.getBody());
+                holder.linearLayoutAnswer.addView(text);
             }
         }
     }
@@ -96,7 +122,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
 
     protected void setComment(int position) {
         if (list.get(position).getComment() != null) {
-            holder.comment.setText(" Коментарий: " + list.get(position).getComment());
+            //holder.comment.setText("Коментарий: " + list.get(position).getComment());
+            holder.comment.setText(list.get(position).getComment());
         }
 
     }

@@ -20,6 +20,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     public ImageView img;
     public TextView comment;
     public LinearLayout linearLayoutAnswer;
+    public View comDiv;
 
 
     public QuestionViewHolder(View itemView) {
@@ -29,5 +30,6 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         questionBody = itemView.findViewById(R.id.question);
         img = itemView.findViewById(R.id.img);
         comment = itemView.findViewById(R.id.comment);
+        comDiv= itemView.findViewById(R.id.com_div);
     }
 }
