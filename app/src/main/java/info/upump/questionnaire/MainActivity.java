@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.io.IOException;
+
 import info.upump.questionnaire.db.DataBaseHelper;
 
 public class MainActivity extends AppCompatActivity
@@ -35,13 +37,19 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         SQLiteDatabase.loadLibs(this);
-        DataBaseHelper helper = DataBaseHelper.getHelper(this);
-        helper.create_db();
+      //  DataBaseHelper helper = DataBaseHelper.getHelper(this);
+       // helper.create_db();
 
         toggle.syncState();
         drawer.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        Reader reader = new Reader(this);
+        try {
+            reader.startReader2();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

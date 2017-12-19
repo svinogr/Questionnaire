@@ -6,6 +6,8 @@ import android.content.res.AssetManager;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -33,6 +35,39 @@ public class Reader {
             "f","h","tz","ch","sh","sh","'","e","yu","ya"};
     public Reader(Activity activity) {
         this.activity = activity;
+    }
+    public void startReader2() throws IOException{
+        List<Question> list = new ArrayList<>();
+        am = activity.getAssets();
+
+        String htmlString = readHtml();
+        String[] arrayQuestions = getArrayQuestions2(htmlString);
+        Document parse = Jsoup.parse(htmlString, "windows-1251");
+        Elements elementsByTag = parse.body().getElementsByTag("table").get(5).getElementsByTag("tr");
+      //  System.out.println(elementsByTag.size());
+        for(Element element: elementsByTag){
+            Elements td = element.getElementsByTag("td");
+            if(td.size()>0) {
+                System.out.println("вопрос: " + td.get(1).text());
+                System.out.println("ответ: ");
+               // System.out.println("ответ: " + td.get(2).text());
+                Elements right = td.get(2).getElementsByClass("right");
+                for(Element rightElement: right){
+                    System.out.println(rightElement.text());
+                }
+             //   System.out.println(td.size());
+            }
+        }
+
+     /*   for (int i =0; i<arrayQuestions.length-1;i++){
+            Document parse = Jsoup.parse(arrayQuestions[i], "windows-1251");
+            System.out.println(parse);
+            Elements elementsByTag = parse.getElementsByTag("td");
+            System.out.println(elementsByTag.size());
+        }*/
+
+
+
     }
 
     public void startReader() throws IOException {
@@ -188,6 +223,12 @@ public class Reader {
         return split[1].split("<hr width=200px>");
     }
 
+    private String[] getArrayQuestions2(String htmlString) {
+        String[] split = htmlString.split("<tr>");
+        return split;
+    }
+
+
     private String readHtml() {
         String s;
         InputStreamReader scanner = null;
@@ -195,7 +236,7 @@ public class Reader {
         StringBuilder stringBuilder = new StringBuilder();
 
         try {
-            scanner = new InputStreamReader(am.open("question.html"), "windows-1251");
+            scanner = new InputStreamReader(am.open("12.html"), "windows-1251");
             bufferedReader = new BufferedReader(scanner);
 
             while ((s = bufferedReader.readLine()) != null) {
