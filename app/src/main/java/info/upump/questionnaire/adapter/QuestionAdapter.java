@@ -38,7 +38,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
     private List<Answer> answers;
 
     public QuestionAdapter(Activity activity, List<Question> list) {
-        System.out.println("созался адаптер");
         this.activity = activity;
         this.list = list;
         this.filter = new CategoryFilter(list, this);
@@ -54,6 +53,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
     @Override
     public void onBindViewHolder(final QuestionViewHolder holder, final int position) {
         this.holder = holder;
+
         holder.linearLayoutAnswer.removeAllViews();
 
         holder.number.setText("Вопрос номер: " + String.valueOf(position + 1));
@@ -71,7 +71,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
             holder.img.setImageDrawable(null);
             holder.img.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
-        System.out.println("размер листа вопроса "+list.get(position).getAnswers().size());
         if(list.get(position).getAnswers().size()<1) {
 
             TaskGetAnswer taskGetAnswer = new TaskGetAnswer(activity, holder, list);
@@ -123,7 +122,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
     protected void setComment(int position) {
         if (list.get(position).getComment() != null) {
             //holder.comment.setText("Коментарий: " + list.get(position).getComment());
-            holder.comment.setText(list.get(position).getComment());
+            holder.comment.setText("Коментарий: "+list.get(position).getComment());
         }
 
     }

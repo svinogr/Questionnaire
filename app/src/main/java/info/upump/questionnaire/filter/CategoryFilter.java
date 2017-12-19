@@ -28,10 +28,6 @@ public class CategoryFilter extends Filter {
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
-
-        System.out.println("inlist size" + inList.size());
-        System.out.println("out1 size" + outList.size());
-        System.out.println(constraint);
         outList = new ArrayList<>();
 
         FilterResults filterResults = new FilterResults();
@@ -48,7 +44,6 @@ public class CategoryFilter extends Filter {
         }
         filterResults.values = outList;
         filterResults.count = outList.size();
-        System.out.println("out2 size" + outList.size());
 
         return filterResults;
     }

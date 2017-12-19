@@ -25,5 +25,28 @@
 
 
     </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_captain2"
+            android:icon="@mipmap/ic_cap"
+            android:title="@string/nav_nav_captain2" />
+
+        <item
+            android:id="@+id/nav_senior_assistant2"
+            android:icon="@mipmap/ic_cap_ass"
+            android:title="@string/nav_senior_assistant2" />
+        <item
+            android:id="@+id/nav_watch_mate_assistant2"
+            android:icon="@mipmap/ic_cap_watc"
+            android:title="@string/nav_watch_mate_assistant2" />
+        <item
+
+            android:id="@+id/nav_question2"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/all_question2" />
+
+
+
+    </group>
 
     </menu>

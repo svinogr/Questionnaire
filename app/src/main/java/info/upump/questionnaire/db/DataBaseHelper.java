@@ -1,10 +1,9 @@
 package info.upump.questionnaire.db;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteException;
+import net.sqlcipher.database.SQLiteOpenHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,7 +74,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void create_db() {
-        System.out.println("createBD");
         InputStream myInput = null;
         OutputStream myOutput = null;
 
@@ -87,7 +85,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             File file = new File(DB_PATH);
             if (!file.exists()) {
                 //получаем локальную бд как поток в папке assets
-                this.getReadableDatabase();
+                this.getReadableDatabase("Zxcvb123");
                 myInput = context.getAssets().open(DATABASE_NAME);
 
                 // Путь к новой бд
@@ -100,13 +98,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 int length;
 
                 while ((length = myInput.read(buffer)) > 0) {
-                    System.out.println("размер " + length);
                     myOutput.write(buffer, 0, length);
                 }
 
                 myOutput.flush();
                 myOutput.close();
                 myInput.close();
+                close();
             }
 
         } catch (IOException e) {
@@ -119,7 +117,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase;
         try {
 
-            sqLiteDatabase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
+            sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(DB_PATH, "Zxcvb123", null);
         } catch (SQLiteException e) {
             return false;
         }
@@ -132,12 +130,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-/*
 
         db.execSQL(CREATE_QUESTION_TABLE);
         db.execSQL(CREATE_ANSWER_TABLE);
-        System.err.println("Создание базы");
-*/
 
     }
 

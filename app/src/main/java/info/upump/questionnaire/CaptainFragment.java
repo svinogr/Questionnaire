@@ -35,32 +35,29 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
     private RecyclerView recyclerView;
     private QuestionAdapter questionAdapter;
     private SearchView searchView;
-    protected  String CATEGORY = "капитаны";
-    public   static String TAG = "cap";
-    private final Handler handler = new Handler(){
+    protected String CATEGORY = "капитаны";
+    public static String TAG = "cap";
+    LinearLayoutManager linearLayoutManager;
+    private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
-            System.out.println(msg.arg1 +"------"+(String)msg.obj);
-            if(msg.what==100){
+            if (msg.what == 100) {
                 try {
 
-                    int number = Integer.parseInt( (String) msg.obj);
-                    if(number>recyclerView.getAdapter().getItemCount()){
+                    int number = Integer.parseInt((String) msg.obj);
+                    if (number > recyclerView.getAdapter().getItemCount()) {
                         number = recyclerView.getAdapter().getItemCount();
                     }
-                    if(number<1){
+                    if (number < 1) {
                         number = 1;
                     }
-                    System.out.println("номер строки если цифра "+number);
-                    recyclerView.scrollToPosition(number-5);
-                    recyclerView.smoothScrollToPosition(number-1);
+                    linearLayoutManager.scrollToPositionWithOffset(number - 1, 0);
 
-                }catch (NumberFormatException e) {
-                    System.out.println("если символ !"+msg.obj+"!");
-                    questionAdapter.filter( (String) msg.obj);
+                } catch (NumberFormatException e) {
+                    questionAdapter.filter((String) msg.obj);
 
-                }catch (IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     recyclerView.stopScroll();
                 }
             }
@@ -94,8 +91,7 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
         progressBar.setVisibility(progressBar.VISIBLE);
 
 
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView = root.findViewById(R.id.listQuestionSearchCategory);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -126,11 +122,8 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onLoadFinished(Loader<List<Question>> loader, List<Question> data) {
-        System.out.println(2);
-        System.out.println(data.size());
         list.clear();
         list.addAll(data);
-        System.out.println(list.size());
         questionAdapter.notifyDataSetChanged();
         progressBar.setVisibility(progressBar.GONE);
     }

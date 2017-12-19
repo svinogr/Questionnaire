@@ -10,12 +10,16 @@
     </string>
     <string name="nav_serch_name">Поиск</string>
     <string name="nav_nav_captain">Капитаны</string>
-    <string name="nav_senior_assistant">Старшие помошники капиатна</string>
-    <string name="nav_watch_mate_assistant">Вахтенные помошники капитана</string>
+    <string name="nav_senior_assistant">Старшие помощники капитана</string>
+    <string name="nav_watch_mate_assistant">Вахтенные помощники капитана</string>
     <string name="mailto">Обратная связь</string>
     <string name="number_search">№</string>
     <string name="drawer_down_text">Дельта Тест: Вопросы и ответы</string>
     <string name="drawer_up_text">Судовождение</string>
-    <string name="subject_mail">ДельтаТест. Судовождение</string>
+    <string name="subject_mail">Дельта Тест. Судовождение</string>
     <string name="email_mail">updeveloper3y@gmail.com</string>
+    <string name="nav_nav_captain2">капитаны 2</string>
+    <string name="nav_senior_assistant2">старшие помошники 2</string>
+    <string name="nav_watch_mate_assistant2">вахтененные помошники 2</string>
+    <string name="all_question2">все вопросы 2</string>
 </resources>

@@ -40,6 +40,7 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     private List<Question> list = new ArrayList<>();
     private EditText editText;
     public static String TAG="question";
+    LinearLayoutManager linearLayoutManager;
     private final Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -55,11 +56,13 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
                         number = 1;
                     }
                     System.out.println("номер строки если цифра "+number);
-                    recyclerView.scrollToPosition(number-1);
+                    linearLayoutManager.scrollToPositionWithOffset(number-1,0);
+
                 }catch (NumberFormatException e) {
                     System.out.println("если символ !"+msg.obj+"!");
 
-                    questionAdapter.filter( (String) msg.obj);
+
+                        questionAdapter.filter((String) msg.obj);
 
                 }catch (IndexOutOfBoundsException e){
                     recyclerView.stopScroll();
@@ -78,7 +81,7 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
 
         questionAdapter = new QuestionAdapter(getActivity(), list);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+       linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = (RecyclerView) root.findViewById(R.id.listQuestionSearch);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(questionAdapter);

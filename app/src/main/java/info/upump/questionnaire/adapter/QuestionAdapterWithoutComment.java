@@ -18,7 +18,7 @@ public class QuestionAdapterWithoutComment extends QuestionAdapter {
 
     @Override
     protected void setComment(int position) {
-          holder.comment.setVisibility(View.GONE);
+        holder.comment.setVisibility(View.GONE);
         holder.comDiv.setVisibility(View.GONE);
 
     }

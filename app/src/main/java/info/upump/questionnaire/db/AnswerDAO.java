@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import info.upump.questionnaire.entity.Answer;
-import info.upump.questionnaire.entity.Question;
 
 /**
  * Created by explo on 27.09.2017.

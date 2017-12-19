@@ -2,12 +2,9 @@ package info.upump.questionnaire;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,11 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.IOException;
-import java.util.List;
+import net.sqlcipher.database.SQLiteDatabase;
 
 import info.upump.questionnaire.db.DataBaseHelper;
-import info.upump.questionnaire.entity.Question;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,22 +29,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+        SQLiteDatabase.loadLibs(this);
         DataBaseHelper helper = DataBaseHelper.getHelper(this);
         helper.create_db();
+
         toggle.syncState();
         drawer.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -84,8 +72,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.mailto) {
             Intent email = new Intent(Intent.ACTION_SEND);
-            email.putExtra(Intent.EXTRA_EMAIL, new String[]{String.valueOf(R.string.email_mail)});
-            email.putExtra(Intent.EXTRA_SUBJECT, R.string.subject_mail);
+            email.putExtra(Intent.EXTRA_EMAIL, new String[]{"updeveloper3y@gmail.com"});
+            email.putExtra(Intent.EXTRA_SUBJECT,"Дельта Тест. Судовождение");
             email.putExtra(Intent.EXTRA_TEXT, "");
             //email.setType("message/rfc822");
             email.setType("plain/text");
@@ -102,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         String tag=null;
-        switch (item.getItemId()){
+        /*switch (item.getItemId()){
             case R.id.nav_captain:
                 fragment = getSupportFragmentManager().findFragmentByTag(CaptainFragment.TAG);
                 tag = CaptainFragment.TAG;
@@ -139,6 +127,32 @@ public class MainActivity extends AppCompatActivity
 
                 break;
 
+        }*/
+        switch (item.getItemId()){
+            case R.id.nav_captain:
+
+
+                    fragment = new CaptainFragment();
+
+                break;
+            case R.id.nav_senior_assistant:
+
+                    fragment = new SeniorAssistantFragment();
+
+
+                break;
+            case R.id.nav_watch_mate_assistant:
+
+                    fragment = new WatchMateFragment();
+
+
+                break;
+            case R.id.nav_question:
+
+                    fragment = new QuestionFragment();
+
+                break;
+
         }
         item.setChecked(true);
         setTitle(item.getTitle());
@@ -146,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         fragmentTransaction.replace(R.id.mainContainer, fragment, tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

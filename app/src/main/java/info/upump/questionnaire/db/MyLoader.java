@@ -4,11 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.AsyncTaskLoader;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import info.upump.questionnaire.entity.Answer;
 import info.upump.questionnaire.entity.Question;
 
 /**
@@ -42,7 +40,6 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
 
         if (category != null) {
             cursor = questionDAO.getSearchInCategory(category);
-            System.out.println("поиск по категории " + category);
         } else cursor = questionDAO.getCursorQuestion();
 
         if (cursor != null) {
@@ -112,7 +109,6 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
             }
         }
 */
-        System.out.println(list.size());
         return list;
     }
 

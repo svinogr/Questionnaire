@@ -1,7 +1,7 @@
 package info.upump.questionnaire.db;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteDatabase;
 
 /**
  * Created by explo on 26.09.2017.
@@ -21,7 +21,7 @@ public class DBDAO {
     public void open() {
         if (dataBaseHelper == null)
             dataBaseHelper = DataBaseHelper.getHelper(context);
-        database = dataBaseHelper.getWritableDatabase();
+        database = dataBaseHelper.getWritableDatabase("Zxcvb123");
 
     }
 

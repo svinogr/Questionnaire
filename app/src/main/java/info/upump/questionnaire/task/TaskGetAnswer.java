@@ -36,7 +36,6 @@ public class TaskGetAnswer extends AsyncTask<Integer, Void, List<Answer>> {
     @Override
     protected List<Answer> doInBackground(Integer... params) {
         List<Answer> list = new ArrayList<>();
-        System.out.println(params[0]);
         Cursor answerByQuation = answerDAO.getAnswerByQuation(params[0]);
         if (answerByQuation.moveToFirst()) {
             do {
