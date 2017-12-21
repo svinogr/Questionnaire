@@ -73,6 +73,18 @@ public class QuestionDAO extends DBDAO {
         );
         return cursor;
     }
+    public Cursor getCusrorQuestionWithComment(){
+        cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+                new String[]{
+                        DataBaseHelper.TABLE_KEY_ID,
+                        DataBaseHelper.TABLE_KEY_BODY,
+                        DataBaseHelper.TABLE_KEY_CATEGORY,
+                        DataBaseHelper.TABLE_KEY_IMG,
+                        DataBaseHelper.TABLE_KEY_COMMENT},
+                DataBaseHelper.TABLE_KEY_COMMENT + " NOT NULL ",  null, null, null, null
+        );
+        return cursor;
+    }
     public Cursor searchByString(String search){
          cursor = database.query(DataBaseHelper.TABLE_QUESTION,
                 new String[]{

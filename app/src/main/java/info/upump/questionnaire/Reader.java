@@ -41,30 +41,44 @@ public class Reader {
         am = activity.getAssets();
 
         String htmlString = readHtml();
-        String[] arrayQuestions = getArrayQuestions2(htmlString);
+       // String[] arrayQuestions = getArrayQuestions2(htmlString);
         Document parse = Jsoup.parse(htmlString, "windows-1251");
         Elements elementsByTag = parse.body().getElementsByTag("table").get(5).getElementsByTag("tr");
       //  System.out.println(elementsByTag.size());
         for(Element element: elementsByTag){
             Elements td = element.getElementsByTag("td");
             if(td.size()>0) {
-                System.out.println("вопрос: " + td.get(1).text());
-                System.out.println("ответ: ");
+                Question question = new Question();
+            //    System.out.println("вопрос: " + td.get(1).text());
+                question.setBody( td.get(1).text());
+                question.setCategory("cap2");
+            //    System.out.println("ответ: ");
                // System.out.println("ответ: " + td.get(2).text());
                 Elements right = td.get(2).getElementsByClass("right");
                 for(Element rightElement: right){
-                    System.out.println(rightElement.text());
+                    Answer answer = new Answer();
+                    answer.setBody(rightElement.text());
+                    answer.setRight(1);
+                    question.getAnswers().add(answer);
+               //     System.out.println(rightElement.text());
                 }
+                System.out.println(question.getAnswers().size());
+                list.add(question);
              //   System.out.println(td.size());
             }
         }
 
-     /*   for (int i =0; i<arrayQuestions.length-1;i++){
-            Document parse = Jsoup.parse(arrayQuestions[i], "windows-1251");
-            System.out.println(parse);
-            Elements elementsByTag = parse.getElementsByTag("td");
-            System.out.println(elementsByTag.size());
-        }*/
+        QuestionDAO questionDAO =  new QuestionDAO(activity);
+        AnswerDAO answerDAO = new AnswerDAO(activity);
+        for(Question question : list) {
+            int save = (int) questionDAO.save(question);
+            question.setId(save);
+            for(Answer answer : question.getAnswers() ){
+                answer.setQuestion(question);
+                answerDAO.save(answer);
+
+            }
+        }
 
 
 

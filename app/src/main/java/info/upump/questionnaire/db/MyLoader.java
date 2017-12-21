@@ -18,6 +18,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
     private AnswerDAO answerDAO;
     private String category;
     private Cursor cursor;
+    private boolean comment;
 
     public MyLoader(Context context) {
         super(context);
@@ -26,9 +27,10 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
     }
 
 
-    public MyLoader(Context context, String category) {
+    public MyLoader(Context context, String category, boolean comment) {
         this(context);
         this.category = category;
+        this.comment = comment;
 
     }
 
@@ -40,8 +42,11 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
 
         if (category != null) {
             cursor = questionDAO.getSearchInCategory(category);
-        } else cursor = questionDAO.getCursorQuestion();
-
+        } else if (comment) {
+            cursor = questionDAO.getCusrorQuestionWithComment();
+        } else {
+            cursor = questionDAO.getCursorQuestion();
+        }
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
@@ -51,21 +56,6 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
                     question.setCategory(stringToUpperCase(cursor.getString(2)));
                     question.setImg(cursor.getString(3));
                     question.setComment(stringToUpperCase(cursor.getString(4)));
-
-                  /*  answerByQuation = answerDAO.getAnswerByQuation(question.getId());
-                    if (answerByQuation.moveToFirst()) {
-                        do {
-                            Answer answer = new Answer();
-                            answer.setId(answerByQuation.getInt(0));
-                            answer.setBody(stringToUpperCase(answerByQuation.getString(1)));
-                            answer.setRight(answerByQuation.getInt(2));
-                            answer.setQuestion(question);
-                            question.getAnswers().add(answer);
-
-                        } while (answerByQuation.moveToNext());
-                    }
-                    list.add(question);
-                    answerByQuation.close();*/
 
                     list.add(question);
                 }

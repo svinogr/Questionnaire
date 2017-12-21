@@ -117,7 +117,7 @@ public class CaptainFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public Loader<List<Question>> onCreateLoader(int id, Bundle args) {
-        return new MyLoader(getContext(), args.getString("category"));
+        return new MyLoader(getContext(), args.getString("category"),false);
     }
 
     @Override

@@ -1,52 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <group
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_captain"
-            android:icon="@mipmap/ic_cap"
-            android:title="@string/nav_nav_captain" />
+            android:id="@+id/old"
 
-        <item
-            android:id="@+id/nav_senior_assistant"
-            android:icon="@mipmap/ic_cap_ass"
-            android:title="@string/nav_senior_assistant" />
-        <item
-            android:id="@+id/nav_watch_mate_assistant"
-            android:icon="@mipmap/ic_cap_watc"
-            android:title="@string/nav_watch_mate_assistant" />
-        <item
+            android:checkableBehavior="single">
+            <item android:title="Версия">
+                <menu>
+                    <item
+                        android:id="@+id/nav_captain"
+                        android:icon="@mipmap/ic_cap"
+                        android:title="@string/nav_nav_captain" />
 
-            android:id="@+id/nav_question"
-            android:icon="@drawable/ic_search_black_24dp"
-            android:title="@string/all_question" />
+                    <item
+                        android:id="@+id/nav_senior_assistant"
+                        android:icon="@mipmap/ic_cap_ass"
+                        android:title="@string/nav_senior_assistant" />
+                    <item
+                        android:id="@+id/nav_watch_mate_assistant"
+                        android:icon="@mipmap/ic_cap_watc"
+                        android:title="@string/nav_watch_mate_assistant" />
+                </menu>
+            </item>
+        </group>
+        <group
+            android:id="@+id/nov"
+
+            android:checkableBehavior="single">
+            <item android:title="Версия">
+                <menu>
+                    <item
+                        android:id="@+id/nav_captain2"
+                        android:icon="@mipmap/ic_cap"
+                        android:title="@string/nav_nav_captain2" />
+
+                    <item
+                        android:id="@+id/nav_senior_assistant2"
+                        android:icon="@mipmap/ic_cap_ass"
+                        android:title="@string/nav_senior_assistant2" />
+                    <item
+                        android:id="@+id/nav_watch_mate_assistant2"
+                        android:icon="@mipmap/ic_cap_watc"
+                        android:title="@string/nav_watch_mate_assistant2" />
+                </menu>
+            </item>
+        </group>
+        <group
+
+            android:id="@+id/bottom"
+
+            android:checkableBehavior="single">
+            <item
+
+                android:id="@+id/nav_question"
+                android:icon="@drawable/ic_search_black_24dp"
+                android:title="@string/all_question_with_comment" />
+
+            <item
 
 
+                android:id="@+id/nav_question_all"
+                android:icon="@drawable/ic_search_black_24dp"
+                android:title="@string/all_questions" />
 
+        </group>
     </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_captain2"
-            android:icon="@mipmap/ic_cap"
-            android:title="@string/nav_nav_captain2" />
 
-        <item
-            android:id="@+id/nav_senior_assistant2"
-            android:icon="@mipmap/ic_cap_ass"
-            android:title="@string/nav_senior_assistant2" />
-        <item
-            android:id="@+id/nav_watch_mate_assistant2"
-            android:icon="@mipmap/ic_cap_watc"
-            android:title="@string/nav_watch_mate_assistant2" />
-        <item
-
-            android:id="@+id/nav_question2"
-            android:icon="@drawable/ic_search_black_24dp"
-            android:title="@string/all_question2" />
-
-
-
-    </group>
-
-    </menu>
+</menu>

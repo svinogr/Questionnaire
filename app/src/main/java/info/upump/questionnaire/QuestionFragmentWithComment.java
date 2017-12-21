@@ -31,7 +31,7 @@ import info.upump.questionnaire.entity.Question;
  * Created by explo on 09.10.2017.
  */
 
-public class QuestionFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Question>> {
+public class QuestionFragmentWithComment extends Fragment implements LoaderManager.LoaderCallbacks<List<Question>> {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private DataBaseHelper helper;
@@ -39,32 +39,32 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     private SearchView searchView;
     private List<Question> list = new ArrayList<>();
     private EditText editText;
-    public static String TAG="question";
+    public static String TAG = "question";
     LinearLayoutManager linearLayoutManager;
-    private final Handler handler = new Handler(){
+    private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            System.out.println(msg.arg1 +"------"+(String)msg.obj);
-            if(msg.what==100){
+            System.out.println(msg.arg1 + "------" + (String) msg.obj);
+            if (msg.what == 100) {
                 try {
 
-                    int number = Integer.parseInt( (String) msg.obj);
-                    if(number>recyclerView.getAdapter().getItemCount()){
+                    int number = Integer.parseInt((String) msg.obj);
+                    if (number > recyclerView.getAdapter().getItemCount()) {
                         number = recyclerView.getAdapter().getItemCount();
                     }
-                    if(number<1){
+                    if (number < 1) {
                         number = 1;
                     }
-                    System.out.println("номер строки если цифра "+number);
-                    linearLayoutManager.scrollToPositionWithOffset(number-1,0);
+                    System.out.println("номер строки если цифра " + number);
+                    linearLayoutManager.scrollToPositionWithOffset(number - 1, 0);
 
-                }catch (NumberFormatException e) {
-                    System.out.println("если символ !"+msg.obj+"!");
+                } catch (NumberFormatException e) {
+                    System.out.println("если символ !" + msg.obj + "!");
 
 
-                        questionAdapter.filter((String) msg.obj);
+                    questionAdapter.filter((String) msg.obj);
 
-                }catch (IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     recyclerView.stopScroll();
                 }
             }
@@ -81,7 +81,7 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
 
         questionAdapter = new QuestionAdapter(getActivity(), list);
 
-       linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = (RecyclerView) root.findViewById(R.id.listQuestionSearch);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(questionAdapter);
@@ -106,7 +106,6 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
         });
 
 
-
         return root;
     }
 
@@ -120,13 +119,11 @@ public class QuestionFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<List<Question>> onCreateLoader(int i, Bundle bundle) {
         System.out.println(1);
 
-        return new MyLoader(getContext());
+        return new MyLoader(getContext(),null,true);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Question>> loader, List<Question> data) {
-        System.out.println(2);
-        System.out.println(data.size());
         list.clear();
         list.addAll(data);
         questionAdapter.notifyDataSetChanged();

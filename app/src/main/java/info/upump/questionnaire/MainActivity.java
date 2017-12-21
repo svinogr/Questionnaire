@@ -37,19 +37,20 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         SQLiteDatabase.loadLibs(this);
-      //  DataBaseHelper helper = DataBaseHelper.getHelper(this);
-       // helper.create_db();
+        DataBaseHelper helper = DataBaseHelper.getHelper(this);
+        helper.create_db();
 
         toggle.syncState();
         drawer.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+/*
         Reader reader = new Reader(this);
         try {
             reader.startReader2();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -98,44 +99,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         String tag=null;
-        /*switch (item.getItemId()){
-            case R.id.nav_captain:
-                fragment = getSupportFragmentManager().findFragmentByTag(CaptainFragment.TAG);
-                tag = CaptainFragment.TAG;
-                System.out.println(CaptainFragment.TAG);
-                if(fragment==null) {
-                    fragment = new CaptainFragment();
-                }
-                break;
-            case R.id.nav_senior_assistant:
-                fragment = getSupportFragmentManager().findFragmentByTag(SeniorAssistantFragment.TAG);
-                tag = SeniorAssistantFragment.TAG;
-                System.out.println(SeniorAssistantFragment.TAG);
-                if(fragment==null) {
-                    fragment = new SeniorAssistantFragment();
-                }
 
-                break;
-            case R.id.nav_watch_mate_assistant:
-                fragment = getSupportFragmentManager().findFragmentByTag(WatchMateFragment.TAG);
-                tag = WatchMateFragment.TAG;
-                System.out.println(WatchMateFragment.TAG);
-                if(fragment==null) {
-                    fragment = new WatchMateFragment();
-                }
-
-                break;
-            case R.id.nav_question:
-                fragment = getSupportFragmentManager().findFragmentByTag(QuestionFragment.TAG);
-                tag = QuestionFragment.TAG;
-                System.out.println(QuestionFragment.TAG);
-                if(fragment==null) {
-                    fragment = new QuestionFragment();
-                }
-
-                break;
-
-        }*/
         switch (item.getItemId()){
             case R.id.nav_captain:
 
@@ -143,6 +107,7 @@ public class MainActivity extends AppCompatActivity
                     fragment = new CaptainFragment();
 
                 break;
+
             case R.id.nav_senior_assistant:
 
                     fragment = new SeniorAssistantFragment();
@@ -157,9 +122,34 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_question:
 
-                    fragment = new QuestionFragment();
+                    fragment = new QuestionFragmentWithComment();
 
                 break;
+            case R.id.nav_captain2:
+
+
+                fragment = new Capitan2();
+
+                break;
+            case R.id.nav_senior_assistant2:
+
+
+                fragment = new SeniorAssistantFragment2();
+
+                break;
+            case R.id.nav_watch_mate_assistant2:
+
+
+                fragment = new WatchMateFragment2();
+
+                break;
+            case R.id.nav_question_all:
+
+
+                fragment = new QuestionFragmentAll();
+
+                break;
+
 
         }
         item.setChecked(true);
