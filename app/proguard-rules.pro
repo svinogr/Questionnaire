@@ -23,3 +23,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn org.antlr.**
+-keep class net.sqlcipher.** { *; }
+-dontwarn net.sqlcipher.**
+-keep public class * extends MainActivity
+-keep public class * extends info.upump.questionnaire.MainActivity
+-keep public class * extends android.app.Application
+-keep public class * extends net.sqlcipher.database
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
