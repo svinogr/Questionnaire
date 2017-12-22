@@ -77,10 +77,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         InputStream myInput = null;
         OutputStream myOutput = null;
 
-
         if (checkBD()) {
             return;
         }
+
         try {
             File file = new File(DB_PATH);
             if (!file.exists()) {
@@ -130,9 +130,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+/*
 
         db.execSQL(CREATE_QUESTION_TABLE);
         db.execSQL(CREATE_ANSWER_TABLE);
+*/
 
     }
 

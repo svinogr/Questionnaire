@@ -51,7 +51,7 @@ public class Reader {
                 Question question = new Question();
             //    System.out.println("вопрос: " + td.get(1).text());
                 question.setBody( td.get(1).text());
-                question.setCategory("cap2");
+                question.setCategory("watch2");
             //    System.out.println("ответ: ");
                // System.out.println("ответ: " + td.get(2).text());
                 Elements right = td.get(2).getElementsByClass("right");
@@ -250,7 +250,7 @@ public class Reader {
         StringBuilder stringBuilder = new StringBuilder();
 
         try {
-            scanner = new InputStreamReader(am.open("12.html"), "windows-1251");
+            scanner = new InputStreamReader(am.open("32.html"), "windows-1251");
             bufferedReader = new BufferedReader(scanner);
 
             while ((s = bufferedReader.readLine()) != null) {

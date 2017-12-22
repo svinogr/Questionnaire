@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
         SQLiteDatabase.loadLibs(this);
+
         DataBaseHelper helper = DataBaseHelper.getHelper(this);
         helper.create_db();
 
@@ -44,8 +46,7 @@ public class MainActivity extends AppCompatActivity
         drawer.openDrawer(GravityCompat.START);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-/*
-        Reader reader = new Reader(this);
+     /*   Reader reader = new Reader(this);
         try {
             reader.startReader2();
         } catch (IOException e) {
@@ -143,12 +144,12 @@ public class MainActivity extends AppCompatActivity
                 fragment = new WatchMateFragment2();
 
                 break;
-            case R.id.nav_question_all:
+          /*  case R.id.nav_question_all:
 
 
                 fragment = new QuestionFragmentAll();
 
-                break;
+                break;*/
 
 
         }
