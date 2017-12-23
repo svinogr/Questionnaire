@@ -16,7 +16,7 @@ import java.io.OutputStream;
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "questionnaire.db";
     public static final String TABLE_QUESTION = "QUESTION";
     public static final String TABLE_ANSWER = "ANSWER";
@@ -85,7 +85,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             File file = new File(DB_PATH);
             if (!file.exists()) {
                 //получаем локальную бд как поток в папке assets
+                System.out.println("сменить базу");
                 this.getReadableDatabase("Zxcvb123");
+
                 myInput = context.getAssets().open(DATABASE_NAME);
 
                 // Путь к новой бд
@@ -106,26 +108,49 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 myInput.close();
                 close();
             }
+            seVersionDB();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+    private void deleteBD(){
+        System.out.println("удалем старую");
+        File file = new File(DB_PATH);
+        if(file.exists()){
+            file.delete();
+        }
+    }
+
+    private void seVersionDB() {
+        SQLiteDatabase sqLiteDatabase;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(DB_PATH, "Zxcvb123", null);
+            sqLiteDatabase.setVersion(DATABASE_VERSION);
+            sqLiteDatabase.close();
+        }catch (SQLiteException e) {
+
+        }
+    }
+
+
+
 
     private boolean checkBD() {
         SQLiteDatabase sqLiteDatabase;
         try {
-
             sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(DB_PATH, "Zxcvb123", null);
+            int version = sqLiteDatabase.getVersion();
+            System.out.println("версия базы "+version);
+            sqLiteDatabase.close();
+            if(version <DATABASE_VERSION){
+                deleteBD();
+                return false;
+            } else return true;
         } catch (SQLiteException e) {
             return false;
         }
-        if (sqLiteDatabase != null) {
-           sqLiteDatabase.close();
-        }
-        return sqLiteDatabase != null ? true : false;
-
     }
 
     @Override
@@ -140,6 +165,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        System.out.println("onUpgrade");
       /*  sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTION);
 
         onCreate(sqLiteDatabase);*/

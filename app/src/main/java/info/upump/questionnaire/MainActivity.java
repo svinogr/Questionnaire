@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -100,60 +99,35 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        item.setCheckable(true);
         String tag=null;
 
         switch (item.getItemId()){
             case R.id.nav_captain:
-
-
                     fragment = new CaptainFragment();
-
                 break;
 
             case R.id.nav_senior_assistant:
-
                     fragment = new SeniorAssistantFragment();
-
-
                 break;
             case R.id.nav_watch_mate_assistant:
-
                     fragment = new WatchMateFragment();
-
-
                 break;
             case R.id.nav_question:
-
                     fragment = new QuestionFragmentWithComment();
-
                 break;
             case R.id.nav_captain2:
-
-
                 fragment = new Capitan2();
-
                 break;
             case R.id.nav_senior_assistant2:
-
-
                 fragment = new SeniorAssistantFragment2();
-
                 break;
             case R.id.nav_watch_mate_assistant2:
-
-
                 fragment = new WatchMateFragment2();
-
                 break;
           /*  case R.id.nav_question_all:
-
-
                 fragment = new QuestionFragmentAll();
-
                 break;*/
-
-
         }
         item.setChecked(true);
         setTitle(item.getTitle());
