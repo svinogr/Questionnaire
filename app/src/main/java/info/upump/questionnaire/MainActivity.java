@@ -13,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import info.upump.questionnaire.db.DataBaseHelper;
 
 
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
 
-        SQLiteDatabase.loadLibs(this);
+     //   SQLiteDatabase.loadLibs(this);
 
         DataBaseHelper helper = DataBaseHelper.getHelper(this);
         helper.create_db();
