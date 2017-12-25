@@ -1,9 +1,10 @@
 package info.upump.questionnaire.db;
 
 import android.content.Context;
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteException;
-import net.sqlcipher.database.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +17,7 @@ import java.io.OutputStream;
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "questionnaire.db";
     public static final String TABLE_QUESTION = "QUESTION";
     public static final String TABLE_ANSWER = "ANSWER";
@@ -56,6 +57,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         DB_PATH = "/data/data/info.upump.questionnaire/databases/" + DATABASE_NAME;
+      //  DB_PATH = context.getFilesDir().getPath() + DATABASE_NAME;
     }
 
     public static synchronized DataBaseHelper getHelper(Context context) {
@@ -86,7 +88,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             if (!file.exists()) {
                 //получаем локальную бд как поток в папке assets
                 System.out.println("сменить базу");
-                this.getReadableDatabase("Zxcvb123");
+                this.getReadableDatabase();
 
                 myInput = context.getAssets().open(DATABASE_NAME);
 
@@ -106,10 +108,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 myOutput.flush();
                 myOutput.close();
                 myInput.close();
+                close();
 
             }
             seVersionDB();
-            close();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -127,7 +130,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private void seVersionDB() {
         SQLiteDatabase sqLiteDatabase;
         try {
-            sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(DB_PATH, "Zxcvb123", null);
+            sqLiteDatabase = getWritableDatabase();
             sqLiteDatabase.setVersion(DATABASE_VERSION);
             sqLiteDatabase.close();
         }catch (SQLiteException e) {
@@ -141,7 +144,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private boolean checkBD() {
         SQLiteDatabase sqLiteDatabase;
         try {
-            sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(DB_PATH, "Zxcvb123", null);
+            sqLiteDatabase = SQLiteDatabase.openDatabase(DB_PATH,null,  SQLiteDatabase.OPEN_READONLY);
             int version = sqLiteDatabase.getVersion();
             System.out.println("версия базы "+version);
             sqLiteDatabase.close();
