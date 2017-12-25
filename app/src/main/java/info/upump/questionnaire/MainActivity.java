@@ -2,7 +2,6 @@ package info.upump.questionnaire;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Keep;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,11 +15,9 @@ import android.view.MenuItem;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-import java.io.IOException;
-
 import info.upump.questionnaire.db.DataBaseHelper;
 
-@Keep
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Fragment fragment;
@@ -42,6 +39,7 @@ public class MainActivity extends AppCompatActivity
 
         DataBaseHelper helper = DataBaseHelper.getHelper(this);
         helper.create_db();
+
 
         toggle.syncState();
         drawer.openDrawer(GravityCompat.START);

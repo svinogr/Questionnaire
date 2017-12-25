@@ -26,7 +26,9 @@ public class DBDAO {
     }
 
     public void close() {
+        if(dataBaseHelper!=null){
         dataBaseHelper.close();
+        }
         database = null;
     }
 }

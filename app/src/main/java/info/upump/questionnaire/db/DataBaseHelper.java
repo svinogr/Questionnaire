@@ -16,7 +16,7 @@ import java.io.OutputStream;
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "questionnaire.db";
     public static final String TABLE_QUESTION = "QUESTION";
     public static final String TABLE_ANSWER = "ANSWER";
@@ -106,9 +106,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 myOutput.flush();
                 myOutput.close();
                 myInput.close();
-                close();
+
             }
             seVersionDB();
+            close();
 
         } catch (IOException e) {
             e.printStackTrace();

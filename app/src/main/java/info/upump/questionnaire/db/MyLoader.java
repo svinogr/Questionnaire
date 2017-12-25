@@ -37,7 +37,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
     @Override
     public List<Question> loadInBackground() {
         List<Question> list = new ArrayList<>();
-        Cursor answerByQuation;
+
 
 
         if (category != null) {
@@ -47,6 +47,7 @@ public class MyLoader extends AsyncTaskLoader<List<Question>> {
         } else {
             cursor = questionDAO.getCursorQuestion();
         }
+
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
